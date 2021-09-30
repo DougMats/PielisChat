@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "231389513124",
+    "project_id": "pielischat",
+    "storage_bucket": "pielischat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231389513124:android:99f44a20ba14e90c072d31",
+        "android_client_info": {
+          "package_name": "com.pielischat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231389513124-dsmm6m6rdtqa9qc809403ckbjt1k6dbb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOIuHpk5q6dh_m015acZZyQx3Blkn0vAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231389513124-dsmm6m6rdtqa9qc809403ckbjt1k6dbb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

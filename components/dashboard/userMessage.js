@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, } from 'react-native';
 import { Icon } from 'react-native-eva-icons';
 
-function ChatSmall(props) {
+function UserMessage(props) {
   //console.log("chat small")
   const [show, setshow] = useState(false);
   const [writing, setwriting] = useState(false);
@@ -14,10 +14,11 @@ function ChatSmall(props) {
 
   function LookingLast(data, type) {
     const count = data.length
+
     if (type === "msg") {
 
       if (data[count - 1].message) {
-        console.log("type msg", data[count - 1].message);
+        //console.log("type msg", data[count - 1].message);
 
         if (data[count - 1].message.conversation) {
           return (<Text style={{ width: "100%" }}>{letterCounter(data[count - 1].message.conversation, 27)}</Text>)
@@ -34,10 +35,10 @@ function ChatSmall(props) {
 
         if (data[count - 1].message.imageMessage) {
           return (
-              <View style={{ width:"100%", flexDirection:"row"}}>
-                <Icon name="image-2" fill={"white"} width={30} height={30} />
-                <Text style={{width:"50%", color:"white", lineHeight:30, fontSize:16, fontWeight:"bold"}}>Foto</Text>
-              </View>
+            <View style={{ width: "100%", flexDirection: "row" }}>
+              <Icon name="image-2" fill={"white"} width={30} height={30} />
+              <Text style={{ width: "50%", color: "white", lineHeight: 30, fontSize: 16, fontWeight: "bold" }}>Foto</Text>
+            </View>
           )
         }
 
@@ -49,31 +50,54 @@ function ChatSmall(props) {
             </View>
           )
         }
+
+        if (data[count - 1].message.documentMessage) {
+          return (
+            <View style={{ width: "100%", flexDirection: "row" }}>
+              <Icon name="file-text-outline" fill={"white"} width={25} height={25} />
+              <Text style={{ width: "50%", color: "white", lineHeight: 30, fontSize: 16, fontWeight: "bold" }}>
+                {letterCounter(data[count - 1].message.documentMessage.fileName, 27)}
+              </Text>
+            </View>
+          )
+        }
+
         else {
           console.log("ERROR = type message undefined")
         }
-
       }
       else {
-        console.log("NOT MESSAGE  ");
+        //console.log("NOT MESSAGE  ");
       }
     }
+
+
+
     if (type === "from") {
-      if (data[count - 1].status) {
-        if (data[count - 1].status === "READ") {
-          return <Icon name="done-all-outline" fill={"#0087FF"} width={15} height={15} style={{ top: 6 }} />
-        }
-        if (data[count - 1].status === "NOTREAD") {
-          return <Icon name="done-all-outline" fill={"#FFF"} width={15} height={15} style={{ top: 6 }} />
-        }
-        if (data[count - 1].status === "SEND") {
-          return <Icon name="checkmark-outline" fill={"#FFF"} width={15} height={15} style={{ top: 6 }} />
-        }
-        if (data[count - 1].status === "NOTSEND") {
-          return <Icon name="clock-outline" fill={"#FFF"} width={15} height={15} style={{ top: 6 }} />
-        }
-      }
+      return <Icon name="done-all-outline" fill={"#0087FF"} width={15} height={15} style={{ top: 6 }} />
+      // if (data[count - 1].status) {
+      // // console.log("estado del mensaje:", data[count - 1].status)
+      // if (data[count - 1].status === "DELIVERY_ACK") {
+      //   return <Icon name="done-all-outline" fill={"#0087FF"} width={15} height={15} style={{ top: 6 }} />
+      // }
+      //   if (data[count - 1].status === "READ") {
+      //     return <Icon name="done-all-outline" fill={"#0087FF"} width={15} height={15} style={{ top: 6 }} />
+      //   }
+      //   if (data[count - 1].status === "NOTREAD") {
+      //     return <Icon name="done-all-outline" fill={"#FFF"} width={15} height={15} style={{ top: 6 }} />
+      //   }
+      //   if (data[count - 1].status === "SEND") {
+      //     return <Icon name="checkmark-outline" fill={"#FFF"} width={15} height={15} style={{ top: 6 }} />
+      //   }
+      //   if (data[count - 1].status === "NOTSEND") {
+      //     return <Icon name="clock-outline" fill={"#FFF"} width={15} height={15} style={{ top: 6 }} />
+      //   }
+      // }
     }
+
+
+
+
     if (type === "time") {
       const datetime = parseInt(data[count - 1].messageTimestamp)
       const date = new Date(datetime * 1000)
@@ -89,7 +113,7 @@ function ChatSmall(props) {
 
   //seleccion simple onpress
   function simple(id) {
-    console.log("simple")
+    // console.log("simple")
     if (props.selectList === 0) {
       props.goToScreen("Chat", id)
     }
@@ -101,6 +125,12 @@ function ChatSmall(props) {
   function long(id) {
     props.SelectMany(id.jid)
   }
+
+
+
+
+
+
 
   return (
     <TouchableOpacity
@@ -122,9 +152,11 @@ function ChatSmall(props) {
             <Icon name="checkmark-circle-2" fill={"#2ECC71"} width={30} height={30} />
           </View>
         }
-        <View style={{ width: 60, height: 60, borderRadius: 40, backgroundColor: "silver", overflow: "hidden" }}>
+        <TouchableOpacity
+          onPress={() => props.showAvatar(props.data)}
+          style={{ width: 60, height: 60, borderRadius: 40, backgroundColor: "silver", overflow: "hidden" }}>
           <Image style={{ width: null, height: null, resizeMode: "cover", flex: 1 }} source={{ uri: props.data.profilePicture }} />
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={{ width: "80%", paddingLeft: 15 }}>
         <View style={{ flexDirection: "row" }}>
@@ -136,15 +168,16 @@ function ChatSmall(props) {
           <Text style={{ color: "white", width: "30%", lineHeight: 25 }}>{LookingLast(props.data.messages, "time")}</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          {LookingLast(props.data.messages, "from")}
 
+
+          <View style={{}}>
+            {LookingLast(props.data.messages, "from")}
+          </View>
 
 
           <Text style={{ width: "95%", overflow: "hidden", color: "white", marginLeft: 5, fontSize: 18 }}>
             {LookingLast(props.data.messages, "msg")}
           </Text>
-
-
         </View>
         {writing === true && <Text style={{ color: "white", marginBottom: -10, fontWeight: "bold", fontSize: 14 }}>Escribiendo...</Text>}
         {recordingAudio === true && <Text style={{ color: "white", marginBottom: -10, fontWeight: "bold", fontSize: 14 }}>Grabando audio...</Text>}
@@ -152,4 +185,4 @@ function ChatSmall(props) {
     </TouchableOpacity>
   );
 }
-export default ChatSmall;
+export default UserMessage;

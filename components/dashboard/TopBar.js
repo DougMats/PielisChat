@@ -1,16 +1,27 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { Icon } from 'react-native-eva-icons';
+import { colorAlfa, colorBeta, colorGamma, colorEpsilon, colorDseta } from '../../Colors.js'
+
 const windowWidth = Dimensions.get('window').width;
 const Wseventeen = (windowWidth * 70) / 100;
 const columns = Wseventeen / 12;
 const WW = (columns * 10)
 const HH = WW / 3.3;
 
-function TopMenuFirst(props) {
+function TopBar(props) {
   const data = { name: "Douglas jesus matos parra" }
+
+
+
+
   return (
-    <View style={{width: "100%", flexDirection: "row", paddingTop: 10, paddingBottom: 5, }}>
+    <View style={{
+      backgroundColor:colorGamma,
+      width: "100%",
+      flexDirection: "row",
+      paddingTop: 10,
+      paddingBottom: 5, }}>
       <View style={{ width: "70%", alignContent: "center", alignItems: "center", justifyContent: "center" }}>
         <View style={{ width: WW, height: HH }}>
           <Image style={{
@@ -19,7 +30,7 @@ function TopMenuFirst(props) {
             resizeMode: "center",
             flex: 1
           }}
-            source={require("../images/logo-white.png")} />
+            source={require("../../images/logo-white.png")} />
         </View>
       </View>
       <View style={{ paddingHorizontal: 10, paddingBottom: 10, width: "30%", alignContent: "center", alignItems: "center", justifyContent: "space-around", flexDirection: "row" }}>
@@ -41,4 +52,4 @@ const styles = StyleSheet.create({
   },
   btn: {}
 })
-export default React.memo(TopMenuFirst);
+export default TopBar;

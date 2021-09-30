@@ -5,7 +5,6 @@ import RequestPermission from '../permission.js';
 import Splash from './Splash'
 import Login from './Login'
 import Dashboard from './Dashboard'
-import DashboardAdmin from './DashboardAdmin'
 
 function HomeScreen(props) {
   const [isSplashing, setIsSplashing] = useState(true)

@@ -4,6 +4,7 @@ import { Icon } from 'react-native-eva-icons';
 import { colorAlfa, colorBeta, } from '../Colors.js'
 import AsyncStorage from '@react-native-community/async-storage'
 import UserContext from '../contexts/UserContext'
+import messaging from '@react-native-firebase/messaging';
 import { base_url, ApiCrm, Api, ApiWhatsapp } from '../Env';
 import Toast from 'react-native-simple-toast';
 import axios from 'axios';
@@ -14,13 +15,58 @@ const windowHeight = Dimensions.get('window').height;
 export default function Login(props) {
 
   const [editable, setEditable] = useState(true)
+  const [notificationToken, setNotificationToken] = React.useState('')
   const [BtnDisable, setBtnDisable] = useState(false)
   const [Load, setLoad] = useState(false)
   const { userDetails, setUserDetails } = useContext(UserContext)
+
+
+
+
+  React.useEffect(() => {
+    async function getToken2() {
+      const fcmToken = await messaging().getToken();
+      if (fcmToken) { setNotificationToken(fcmToken) }
+      else { console.log('user doesnt have a device token yet') }
+      console.log(fcmToken, "TOKEN")
+    }
+    getToken2()
+  }, [])
+
+
+
+
+
+  
   const [formInfo, setFormInfo] = useState({
-    phone: '3152077862',
+    phone: '3152077862', //por defecto
+    //phone: '3164737651', // valentina
     password: 'ad17urca'
   })
+
+
+
+
+
+
+  // const getToken = async () => {
+  //   let fcmToken = await AsyncStorage.getItem('fcmToken');
+  //   if (!fcmToken) {
+  //     fcmToken = await messaging().getToken();
+  //     if (fcmToken) {
+  //       await AsyncStorage.setItem('fcmToken', fcmToken);
+  //     }
+  //   }
+  // };
+
+
+
+
+
+
+
+
+
 
   function onChangeText(text, key) {
     setFormInfo({
@@ -36,15 +82,15 @@ export default function Login(props) {
     else {
       setLoad(true)
       const data = { ...formInfo }
+      data.fcmToken = notificationToken
+
+      console.log("data:", data)
       getSession(data)
-      // axios.post(base_url(ApiWhatsapp, `whatsapp/auth`), data).then(function (response) {
-      //   _storeData(response.data)
-      // })
-      //   .catch(function (error) {
-      //     console.log("Error login>", error)
-      //   })
     }
   }
+
+
+
 
 
   async function getSession(data) {
@@ -53,7 +99,7 @@ export default function Login(props) {
       //_storeData(response.data)
     })
       .catch(function (error) {
-        console.log("Error login>", error)
+        console.log("Error login", error)
       })
   }
 

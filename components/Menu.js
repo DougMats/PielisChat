@@ -16,7 +16,15 @@ function Menu(props) {
   const logOut = async () => {
     try {
       await AsyncStorage.removeItem('@Passport');
-      setUserDetails({})
+      setUserDetails({
+        _id: null,
+        id_user: null,
+        name: null,
+        password: null,
+        phone: null,
+        rol: null,
+        chats:[]
+      })
       props.closeTopMenu();
       props.goToScreen("Login", null)
     } catch (error) {

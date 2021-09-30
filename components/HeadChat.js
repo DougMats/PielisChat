@@ -1,50 +1,103 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { Icon } from 'react-native-eva-icons';
-import { colorAlfa, colorBeta, colorGamma }from '../Colors.js'
+import { colorAlfa, colorBeta, colorGamma } from '../Colors.js'
 
 function HeadChat(props) {
   const data = props.data
   const [writing, setwriting] = useState(false);
   return (
     <View style={styles.wrap}>
-      <View style={[{ width: "10%" }, styles.center]}>
+
+
+
+
+
+
+      <View style={styles.left}>
         <TouchableOpacity onPress={() => props.goToScreen("Dashboard", null)}>
           <Icon name="arrow-back-outline" fill={"#fff"} width={30} height={30} />
         </TouchableOpacity>
       </View>
-      <View style={[{ width: "70%" }, styles.center]}>
-        <View style={{ width: "20%", }}>
+
+
+
+
+
+
+
+
+
+
+
+      <View style={styles.center}>
+        <View style={styles.centerLeft}>
           <View style={styles.avatarImageWraper}>
             <Image style={styles.avatarImage} source={{ uri: data.profilePicture }} />
           </View>
         </View>
-        <TouchableOpacity onPress={() => props.goToScreen("ContactView", props.data)} style={{ flexDirection: "column" }}>
-          <Text style={styles.avatarName}>
-            {((data.name).length > 25) ? (((data.name).substring(0, 25 - 3)) + '...') : data.name}
-          </Text>
-          {
-            writing &&
-            <Text style={styles.writing}>Escribiendo...</Text>
-          }
-        </TouchableOpacity>
+
+
+
+
+        <View style={styles.centerRigth}>
+          <TouchableOpacity onPress={() => props.goToScreen("ContactView", props.data)} style={{ flexDirection: "column" }}>
+            <Text style={styles.avatarName}>
+              {((data.name).length > 25) ? (((data.name).substring(0, 25 - 3)) + '...') : data.name}
+            </Text>
+            {
+              writing &&
+              <Text style={styles.writing}>Escribiendo...</Text>
+            }
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={[{ width: "20%" }, styles.center]}>
-        {/* <TouchableOpacity><Icon name="video" fill={"#fff"} width={30} height={30} /></TouchableOpacity>*/}
+
+
+
+
+
+
+
+      <View style={styles.rigth}>
+        {/* <TouchableOpacity><Icon name="video" fill={"#fff"} width={30} height={30} /></TouchableOpacity> */}
         {/* <TouchableOpacity><Icon name="phone" fill={"#fff"} width={30} height={30} /></TouchableOpacity> */}
         <TouchableOpacity onPress={() => props.openTopMenu()}><Icon name="more-vertical" fill={"#fff"} width={30} height={30} /></TouchableOpacity>
       </View>
+
+
+
     </View>
   );
 }
 const styles = StyleSheet.create({
   wrap: {
+    width: "100%",
     height: 60,
     backgroundColor: colorGamma,
     flexDirection: "row"
   },
-  center: {
+  left: {
+    width: "10%",
     justifyContent: "space-around",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "row",
+  },
+  center: {
+    width: "70%",
+    flexDirection: "row",
+  },
+  centerLeft: {
+    width: "20%",
+    justifyContent: "space-around",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "row",
+  },
+  centerRigth: {
+    width: "80%",
+    justifyContent: "flex-start",
     alignItems: "center",
     alignContent: "center",
     flexDirection: "row",
@@ -63,6 +116,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   avatarName: {
+    textAlign: "left",
     color: "white",
     width: "100%",
     fontSize: 18,
@@ -72,6 +126,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 14
+  },
+  rigth: {
+    width: "20%",
+    justifyContent: "space-around",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "row",
   },
 })
 export default React.memo(HeadChat);

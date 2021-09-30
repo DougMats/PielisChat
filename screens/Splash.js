@@ -1,33 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar, Animated, Text, View, StyleSheet, Image, Dimensions, ImageBackground } from 'react-native';
-
-
-
-
-// const AnimationUp = (props) => {
-//   const MoveToLeft = useRef(new Animated.Value(250)).current
-//   useEffect(() => {
-//     Animated.timing(
-//       MoveToLeft,
-//       {
-//         toValue: 0,
-//         duration: 10000,
-//       },
-//     ).start();
-//   }, [MoveToLeft])
-//   return (
-//     <Animated.View
-//       style={{
-//        // ...props.style,
-
-//        //transform: [{ translateX: MoveToLeft }]
-//       }}
-//     >
-//       {props.children}
-//     </Animated.View>
-//   );
-//}
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height + 50;
 
@@ -40,6 +12,7 @@ const AnimationUP = (props) => {
       {
         toValue: 0,
         duration: 2000,
+        useNativeDriver: true
       },
     ).start();
   }, [MoveToLeft])
@@ -65,6 +38,7 @@ const AnimationDOWN = (props) => {
       {
         toValue: 0,
         duration: 2000,
+        useNativeDriver: true
       },
     ).start();
   }, [MoveToLeft])
@@ -122,13 +96,15 @@ function Index(props) {
       </LOGO>
 
 
-      <AnimationUP style={{zIndex:-1, position: "absolute", flex: 1, width: "100%", height: "100%", }}>
 
+
+      <AnimationUP style={{zIndex:-1, position: "absolute", flex: 1, width: "100%", height: "100%", }}>
         <ImageBackground
           source={require("../images/up.png")}
           style={{ position: "absolute", flex: 1, width: "100%", height: "100%", }}
         />
       </AnimationUP>
+
 
 
       <AnimationDOWN style={{zIndex:-1, position: "absolute", flex: 1, width: "100%", height: "100%", }}>
@@ -137,6 +113,9 @@ function Index(props) {
           style={{ position: "absolute", flex: 1, width: "100%", height: "100%", }}
         />
       </AnimationDOWN>
+
+
+
 
     </View>
   )
