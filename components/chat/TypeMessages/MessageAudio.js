@@ -4,12 +4,12 @@ import { Icon } from 'react-native-eva-icons';
 import { colorAlfa, colorBeta, colorDseta, colorGamma } from "../../../Colors";
 import Toast from 'react-native-simple-toast';
 import axios from 'axios';
+
 import Slider from 'rn-range-slider';
 import Sound from 'react-native-sound';
-import PlayerScreen from 'react-native-sound-playerview'
+
 
 Sound.setCategory('Playback');
-
 
 const THUMB_RADIUS = 12;
 
@@ -18,10 +18,29 @@ function MessageAudio(props) {
   const [playing, setplaying] = useState(false);
   const [position, setposition] = useState(0);
   const [data, setdata] = useState(null);
+  const [whoosh, setwhoosh] = useState(null);
 
   useEffect(() => {
     get()
   }, [props.data]);
+
+
+
+
+  useEffect(() => {
+    if (data !== null) {
+      var newwhoosh = new Sound(data.data.file, Sound.MAIN_BUNDLE, (error) => {
+        if (error) {
+          console.log('failed to load the sound', error);
+          return;
+        }
+        // console.log('duration in seconds: ' + newwhoosh.getDuration() + ' - number of channels: ' + newwhoosh.getNumberOfChannels());
+      });
+      setwhoosh(newwhoosh)
+    }
+  }, [data]);
+
+
 
   async function get() {
     console.log("get automatically")
@@ -29,6 +48,10 @@ function MessageAudio(props) {
     // console.log("URL AUDIO:", URL)
     setdata(URL)
   }
+
+
+
+
 
   async function getSound(mediaKey, url) {
     var bodyFormData = new FormData();
@@ -43,121 +66,78 @@ function MessageAudio(props) {
     return response
   }
 
-  // {"config": {
-  //   "adapter": [Function xhrAdapter],
-  //   "data": {"_parts": [Array]},
-  //   "headers": {"Accept": "application/json, text/plain, */*"},
-  //   "maxBodyLength": -1,
-  //   "maxContentLength": -1,
-  //   "method": "post",
-  //   "timeout": 0,
-  //   "transformRequest": [[Function transformRequest]],
-  //   "transformResponse": [[Function transformResponse]],
-  //   "transitional": {
-  //     "clarifyTimeoutError": false,
-  //     "forcedJSONParsing": true,
-  //     "silentJSONParsing": true},
-  //     "url": "https://pdtclientsolutions.com:5000/decrypt/audio", "validateStatus": [Function validateStatus], "xsrfCookieName": "XSRF-TOKEN", "xsrfHeaderName": "X-XSRF-TOKEN"},
-  //     "data": {"file": "https://pdtclientsolutions.com/images_whatsapp/1632933207.33_audio.ogg"},
-  //     "headers": {"access-control-allow-origin": "*",
-  //     "content-length": "87",
-  //     "content-type": "application/json",
-  //     "date": "Wed, 29 Sep 2021 16:33:27 GMT",
-  //     "server": "Werkzeug/1.0.1 Python/2.7.17"
-  //   }, "request": {"DONE": 4, "HEADERS_RECEIVED": 2, "LOADING": 3, "OPENED": 1, "UNSENT": 0, "_aborted": false, "_cachedResponse": undefined, "_hasError": false, "_headers": {"accept": "application/json, text/plain, */*"}, "_incrementalEvents": false, "_lowerCaseResponseHeaders": {"access-control-allow-origin": "*", "content-length": "87", "content-type": "application/json", "date": "Wed, 29 Sep 2021 16:33:27 GMT", "server": "Werkzeug/1.0.1 Python/2.7.17"}, "_method": "POST", "_perfKey": "network_XMLHttpRequest_https://pdtclientsolutions.com:5000/decrypt/audio", "_performanceLogger": {"_closed": false, "_extras": [Object], "_pointExtras": [Object], "_points": [Object], "_timespans": [Object]}, "_requestId": null, "_response": "{
-  //   \"file\": \"https://pdtclientsolutions.com/images_whatsapp/1632933207.33_audio.ogg\"
-  // }
-  // ", "_responseType": "", "_sent": true, "_subscriptions": [], "_timedOut": false, "_trackingName": "unknown", "_url": "https://pdtclientsolutions.com:5000/decrypt/audio", "readyState": 4, "responseHeaders": {"Access-Control-Allow-Origin": "*", "Content-Length": "87", "Content-Type": "application/json", "Date": "Wed, 29 Sep 2021 16:33:27 GMT", "Server": "Werkzeug/1.0.1 Python/2.7.17"}, "responseURL": "https://pdtclientsolutions.com:5000/decrypt/audio", "status": 200, "timeout": 0, "upload": {}, "withCredentials": true}, "status": 200, "statusText": undefined}
+  /* ____________________________________________ */
 
-
-  // const [low, setLow] = useState(0);
-  // const [high, setHigh] = useState(100);
-
-  const [rangeDisabled, setRangeDisabled] = useState(true);
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(props.data.message.audioMessage.seconds);
-  const [floatingLabel, setFloatingLabel] = useState(true);
-  const renderThumb = useCallback(() => <Thumb />, []);
-  const renderRail = useCallback(() => <Rail />, []);
-  const renderRailSelected = useCallback(() => <RailSelected />, []);
-  const renderLabel = useCallback(value => <Label text={value} />, []);
-  const renderNotch = useCallback(() => <Notch />, []);
-  const handleValueChange = useCallback((low, high) => {
-    console.log("low and high: ", low + " / " + high)
-    // setLow(low);
-    // setHigh(high);
-  }, []);
-
-  // const toggleRangeEnabled = useCallback(() => setRangeDisabled(!rangeDisabled), [rangeDisabled]);
-  // const setMinTo50 = useCallback(() => setMin(50), []);
-  // const setMinTo0 = useCallback(() => setMin(0), []);
-  // const setMaxTo100 = useCallback(() => setMax(100), []);
-  // const setMaxTo500 = useCallback(() => setMax(500), []);
-  // const toggleFloatingLabel = useCallback(() => setFloatingLabel(!floatingLabel), [floatingLabel]);
-
-  function AudioSound(event) {
-    var whoosh = new Sound(data.data.file, Sound.MAIN_BUNDLE, (error) => {
-      if (error) {
-        console.log('failed to load the sound', error);
-        return;
-      }
-      // loaded successfully
-      if (event === "play") {
-        console.log('duration in seconds: ' + whoosh.getDuration() + ' - number of channels: ' + whoosh.getNumberOfChannels());
-        setplaying(true)
-        whoosh.play((success) => {
-          setplaying(false)
-          if (success) {
-            console.log('successfully finished playing');
-          } else {
-            console.log('playback failed due to audio decoding errors');
-          }
-        });
-      }
-      if (event === "pause") {
-        console.log("ww pasusaaaaaa")
-        whoosh.stop();
+  function _Play() {
+    Toast.show("play.")
+    console.log("play")
+    setplaying(true)
+    whoosh.play((success) => {
+      setplaying(false)
+      if (success) {
+        console.log('successfully finished playing');
+      } else {
+        console.log('playback failed due to audio decoding errors');
       }
     });
+  }
+
+  function _Pause() {
+    Toast.show("pause.")
+    console.log("pause")
+    whoosh.pause();
+    setplaying(false)
+  }
+
+function _Stop(){
+  Toast.show("stop.")
+  // // Stop the sound and rewind to the beginning
+  // whoosh.stop(() => {
+  //   // Note: If you want to play a sound after stopping and rewinding it,
+  //   // it is important to call play() in a callback.
+  //   whoosh.play();
+//   });
+  // // Release the audio player resource
+   //whoosh.release();
+  // end AudioSound
+
+  setplaying(false)
+}
+
+  // // Reduce the volume by half
+  // whoosh.setVolume(0.5);
+
+  // // Position the sound to the full right in a stereo field
+  // whoosh.setPan(1);
+
+  // // Loop indefinitely until stop() is called
+  // whoosh.setNumberOfLoops(-1);
+
+
+  //Get properties of the player instance
+  // console.log('volume: ' + whoosh.getVolume());
+  // console.log('pan: ' + whoosh.getPan());
+  // console.log('loops: ' + whoosh.getNumberOfLoops());
+
+function _Seek(time){
+  console.log("seek ", time)
+ //Seek to a specific point in seconds
+  //whoosh.setCurrentTime(time);
+}
 
 
 
-    // // Reduce the volume by half
-    // whoosh.setVolume(0.5);
 
-    // // Position the sound to the full right in a stereo field
-    // whoosh.setPan(1);
-
-    // // Loop indefinitely until stop() is called
-    // whoosh.setNumberOfLoops(-1);
-
-    // // Pause the sound
-    // // whoosh.pause();
-
-    // // Get properties of the player instance
-    // console.log('volume: ' + whoosh.getVolume());
-    // console.log('pan: ' + whoosh.getPan());
-    // console.log('loops: ' + whoosh.getNumberOfLoops());
-
-    // // Seek to a specific point in seconds
-    // whoosh.setCurrentTime(2.5);
-
-    // // Get the current playback point in seconds
-    // whoosh.getCurrentTime((seconds) => console.log('at ' + seconds));
-
-    // // Stop the sound and rewind to the beginning
-    // whoosh.stop(() => {
-    //   // Note: If you want to play a sound after stopping and rewinding it,
-    //   // it is important to call play() in a callback.
-    //   whoosh.play();
-    // });
-
-    // // Release the audio player resource
-    // whoosh.release();
+  // // Get the current playback point in seconds
+  // whoosh.getCurrentTime((seconds) => console.log('at ' + seconds));
 
 
-  }// end AudioSound
 
+
+
+
+
+  /* ____________________________________________ */
 
 
   function toSecunds(seconds) {
@@ -171,15 +151,53 @@ function MessageAudio(props) {
   }
 
 
+
+
+
+
   /* ____________________________________________ */
 
+  const TimerCounter = () => {
+    const [counter, setcounter] = useState(0);
+    if (playing === true) {
+      setTimeout(() => {
+        setcounter(counter + 1)
+      }, 1000);
+    }
+    return (<Text style={{ color: "#555" }}>{toSecunds(counter)}</Text>)
+  }
 
   /* ____________________________________________ */
 
-  // this.props.navigation.navigate('player', {title: __TITLE__, filepath: __AUDIO_FILEPATH__, dirpath: Sound.MAIN_BUNDLE });
+  const [rangeDisabled, setRangeDisabled] = useState(true);
+  const [low, setLow] = useState(0);
+  const [high, setHigh] = useState(100);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(props.data.message.audioMessage.seconds);
+  const [floatingLabel, setFloatingLabel] = useState(true);
 
 
+  const renderThumb = useCallback(() => <Thumb/>, []);
+  const renderRail = useCallback(() => <Rail/>, []);
+  const renderRailSelected = useCallback(() => <RailSelected/>, []);
+  const renderLabel = useCallback(value => <Label text={value}/>, []);
+  const renderNotch = useCallback(() => <Notch/>, []);
+  const handleValueChange = useCallback((low, high) => {
 
+    _Seek(low)
+// console.log(low,"-",high)
+
+    // setLow(low);
+    // setHigh(high);
+  }, []);
+
+  // const toggleRangeEnabled = useCallback(() => setRangeDisabled(!rangeDisabled), [rangeDisabled]);
+  // const setMinTo50 = useCallback(() => setMin(50), []);
+  // const setMinTo0 = useCallback(() => setMin(0), []);
+  // const setMaxTo100 = useCallback(() => setMax(100), []);
+  // const setMaxTo500 = useCallback(() => setMax(500), []);
+  // const toggleFloatingLabel = useCallback(() => setFloatingLabel(!floatingLabel), [floatingLabel]);
+  /* ____________________________________________ */
   return (
     <View style={[styles.wrap, {
       maxWidth: props.MaxWidth,
@@ -191,25 +209,27 @@ function MessageAudio(props) {
     }]}>
       {props.forwarded()}
       <View style={{ flexDirection: "row", marginVertical: 5 }}>
+
+
+
+
         <TouchableOpacity
-          onPress={() => { playing === false ? AudioSound("play") : AudioSound("pause") }}
+          onPress={() => { playing === false ? _Play() : _Pause() }}
+          onLongPress={() => _Stop()}
           style={{ justifyContent: "flex-end", paddingBottom: 10, bottom: 10 }}>
           <Icon name={playing === false ? 'play-circle' : 'pause-circle'} fill={colorAlfa} width={45} height={45} />
         </TouchableOpacity>
-
 
         <View style={{ width: (props.MaxWidth / 6) * 3.8, flexDirection: "column", paddingHorizontal: 5 }}>
 
 
 
-
-          <PlayerScreenControl />
-
-          {/* <Slider
+          <Slider
             //style={{}}
             min={min}
             max={max}
             step={1}
+            value={10}
             disableRange={rangeDisabled}
             floatingLabel={floatingLabel}
             renderThumb={renderThumb}
@@ -218,21 +238,23 @@ function MessageAudio(props) {
             renderLabel={renderLabel}
             renderNotch={renderNotch}
             onValueChanged={handleValueChange}
-          /> */}
-
-
+          /> 
 
 
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Text style={{ color: "#555" }}>{toSecunds(props.data.message.audioMessage.seconds)}</Text>
+            {playing === false ?
+              <Text style={{ color: "#555" }}>{toSecunds(props.data.message.audioMessage.seconds)}</Text>
+              :
+              <TimerCounter />
+            }
             {props.getdate(props.data.messageTimestamp, "#555")}
           </View>
         </View>
+
         <View style={{ width: props.MaxWidth / 6, height: props.MaxWidth / 6, backgroundColor: "silver", borderRadius: (props.MaxWidth / 6) / 2 }}>
           <Icon name="mic" fill={props.data.status === "PLAYED" ? "#0087FF" : "#2ECC71"} width={25} height={25} style={{ position: "absolute", zIndex: 2, bottom: -55, left: -5 }} />
         </View>
       </View>
-
     </View>
   )
 }
@@ -361,191 +383,3 @@ const img_playjumpright = { uri: "http://auditool.org/images/Fotolia_56692565_S.
 
 
 
-
-
-
-function PlayerScreenControl(){
-
-  // static navigationOptions = props => ({
-  //   title: props.navigation.state.params.title,
-  // })
-
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     playState: 'paused', //playing, paused
-  //     playSeconds: 0,
-  //     duration: 0
-  //   }
-  //   this.sliderEditing = false;
-  // }
-
-  // componentDidMount() {
-  //   this.play();
-
-  //   this.timeout = setInterval(() => {
-  //     if (this.sound && this.sound.isLoaded() && this.state.playState == 'playing' && !this.sliderEditing) {
-  //       this.sound.getCurrentTime((seconds, isPlaying) => {
-  //         this.setState({ playSeconds: seconds });
-  //       })
-  //     }
-  //   }, 100);
-  // }
-  // componentWillUnmount() {
-  //   if (this.sound) {
-  //     this.sound.release();
-  //     this.sound = null;
-  //   }
-  //   if (this.timeout) {
-  //     clearInterval(this.timeout);
-  //   }
-  // }
-
-  // onSliderEditStart = () => {
-  //   this.sliderEditing = true;
-  // }
-  // onSliderEditEnd = () => {
-  //   this.sliderEditing = false;
-  // }
-  // onSliderEditing = value => {
-  //   if (this.sound) {
-  //     this.sound.setCurrentTime(value);
-  //     this.setState({ playSeconds: value });
-  //   }
-  // }
-
-  // play = async () => {
-  //   if (this.sound) {
-  //     this.sound.play(this.playComplete);
-  //     this.setState({ playState: 'playing' });
-  //   } else {
-  //     const filepath = this.props.navigation.state.params.filepath;
-  //     var dirpath = '';
-  //     if (this.props.navigation.state.params.dirpath) {
-  //       dirpath = this.props.navigation.state.params.dirpath;
-  //     }
-  //     console.log('[Play]', filepath);
-
-  //     this.sound = new Sound(filepath, dirpath, (error) => {
-  //       if (error) {
-  //         console.log('failed to load the sound', error);
-  //         Alert.alert('Notice', 'audio file error. (Error code : 1)');
-  //         this.setState({ playState: 'paused' });
-  //       } else {
-  //         this.setState({ playState: 'playing', duration: this.sound.getDuration() });
-  //         this.sound.play(this.playComplete);
-  //       }
-  //     });
-  //   }
-  // }
-  // playComplete = (success) => {
-  //   if (this.sound) {
-  //     if (success) {
-  //       console.log('successfully finished playing');
-  //     } else {
-  //       console.log('playback failed due to audio decoding errors');
-  //       Alert.alert('Notice', 'audio file error. (Error code : 2)');
-  //     }
-  //     this.setState({ playState: 'paused', playSeconds: 0 });
-  //     this.sound.setCurrentTime(0);
-  //   }
-  // }
-
-  // pause = () => {
-  //   if (this.sound) {
-  //     this.sound.pause();
-  //   }
-
-  //   this.setState({ playState: 'paused' });
-  // }
-
-const jumpPrev15Seconds = () => {
-
-
-  //this.jumpSeconds(-15);
-
-}
-
-
-const jumpNext15Seconds = () => {
-  //this.jumpSeconds(15);
-}
-
-
-  // jumpSeconds = (secsDelta) => {
-  //   if (this.sound) {
-  //     this.sound.getCurrentTime((secs, isPlaying) => {
-  //       let nextSecs = secs + secsDelta;
-  //       if (nextSecs < 0) nextSecs = 0;
-  //       else if (nextSecs > this.state.duration) nextSecs = this.state.duration;
-  //       this.sound.setCurrentTime(nextSecs);
-  //       this.setState({ playSeconds: nextSecs });
-  //     })
-  //   }
-  // }
-
-  // getAudioTimeString(seconds) {
-  //   const h = parseInt(seconds / (60 * 60));
-  //   const m = parseInt(seconds % (60 * 60) / 60);
-  //   const s = parseInt(seconds % 60);
-
-  //   return ((h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s));
-  // }
-
-
-
-    // const currentTimeString = this.getAudioTimeString(this.state.playSeconds);
-    // const durationString = this.getAudioTimeString(this.state.duration);
-
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'red' }}>
-
-<View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 15 }}>
-
-
-
-<TouchableOpacity onPress={()=>jumpPrev15Seconds()} style={{ justifyContent: 'center' }}>
-            <Image source={img_playjumpleft} style={{ width: 30, height: 30 }} />
-            <Text style={{ position: 'absolute', alignSelf: 'center', marginTop: 1, color: 'white', fontSize: 12 }}>15</Text>
-          </TouchableOpacity>
-
-
-
-        {/* 
-       
-
-         
-          {this.state.playState == 'playing' &&
-            <TouchableOpacity onPress={this.pause} style={{ marginHorizontal: 20 }}>
-              <Image source={img_pause} style={{ width: 30, height: 30 }} />
-            </TouchableOpacity>}
-          {this.state.playState == 'paused' &&
-            <TouchableOpacity onPress={this.play} style={{ marginHorizontal: 20 }}>
-              <Image source={img_play} style={{ width: 30, height: 30 }} />
-            </TouchableOpacity>}
-
-        */}
-
-          <TouchableOpacity onPress={()=>jumpNext15Seconds()} style={{ justifyContent: 'center' }}>
-            <Image source={img_playjumpright} style={{ width: 30, height: 30 }} />
-            <Text style={{ position: 'absolute', alignSelf: 'center', marginTop: 1, color: 'white', fontSize: 12 }}>15</Text>
-          </TouchableOpacity>
-          {/*
-        </View>
-        <View style={{ marginVertical: 15, marginHorizontal: 15, flexDirection: 'row' }}>
-          <Text style={{ color: 'white', alignSelf: 'center' }}>{currentTimeString}</Text>
-          <Slider
-            onTouchStart={this.onSliderEditStart}
-            // onTouchMove={() => console.log('onTouchMove')}
-            onTouchEnd={this.onSliderEditEnd}
-            // onTouchEndCapture={() => console.log('onTouchEndCapture')}
-            // onTouchCancel={() => console.log('onTouchCancel')}
-            onValueChange={this.onSliderEditing}
-            value={this.state.playSeconds} maximumValue={this.state.duration} maximumTrackTintColor='gray' minimumTrackTintColor='white' thumbTintColor='white'
-            style={{ flex: 1, alignSelf: 'center', marginHorizontal: Platform.select({ ios: 5 }) }} />
-          <Text style={{ color: 'white', alignSelf: 'center' }}>{durationString}</Text>
-        */}
- </View>
-      </View>
-    )
-}

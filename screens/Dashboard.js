@@ -571,7 +571,7 @@ function Dashboard(props) {
         {/* 
         </Swiper>  */}
 
-        {Load === true && userDetails.userDetails.rol === "administrador" &&
+        {Load === false && userDetails.userDetails.rol === "administrador" &&
           <TouchableOpacity
             style={{
               position: "absolute", zIndex: 999, backgroundColor: colorBeta, bottom: 75, right: 15, width: 60, height: 60, borderRadius: 60,
@@ -583,7 +583,7 @@ function Dashboard(props) {
         }
 
 
-        {Load === true &&
+        {Load === false &&
           <NewMessage />
         }
 

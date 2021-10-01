@@ -22,7 +22,7 @@ import Splash from './screens/Splash'
 import Dashboard from './screens/Dashboard'
 import Chat from './screens/Chat'
 import ContactView from './screens/ContactView'
-
+import PlayAudio from './screens/PlayAudio'
 
 const Stack = createStackNavigator();
 function App() {
@@ -38,6 +38,7 @@ function App() {
           <Stack.Screen headerMode={'none'} name="Dashboard" component={Dashboard} />
           <Stack.Screen headerMode={'none'} name="Chat" component={Chat} />
           <Stack.Screen headerMode={'none'} name="ContactView" component={ContactView} />
+          <Stack.Screen headerMode={'none'} name="PlayAudio" component={PlayAudio} />
         
         </Stack.Navigator>
       </UserProvider>
