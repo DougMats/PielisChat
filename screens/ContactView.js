@@ -158,7 +158,7 @@ console.log("???", props)
 
 
 
-
+{/* 
           <TouchableOpacity style={{
             padding: 5,
             flexDirection: "row",
@@ -199,11 +199,11 @@ console.log("???", props)
             }}>
               <Text style={{ fontSize: 20, lineHeight: 35, fontWeight: "bold", color: colorBeta }}>Eliminar </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
 
-{/* 
-{filler()} */}
+
+{filler()} 
 
 
         
@@ -478,3 +478,7 @@ function filler (){
     </>
   )
 }
+
+
+
+

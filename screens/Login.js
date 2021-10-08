@@ -37,36 +37,17 @@ export default function Login(props) {
 
 
 
-  
+
   const [formInfo, setFormInfo] = useState({
-    phone: '3152077862', //por defecto
-    //phone: '3164737651', // valentina
+    //phone: '3152077862', //por defecto
+    //password: 'ad17urca'
+
+    phone: '3164737651', // valentina
     password: 'ad17urca'
+
+    // phone: '3156311780', //luisa orozco
+    // password: '123'
   })
-
-
-
-
-
-
-  // const getToken = async () => {
-  //   let fcmToken = await AsyncStorage.getItem('fcmToken');
-  //   if (!fcmToken) {
-  //     fcmToken = await messaging().getToken();
-  //     if (fcmToken) {
-  //       await AsyncStorage.setItem('fcmToken', fcmToken);
-  //     }
-  //   }
-  // };
-
-
-
-
-
-
-
-
-
 
   function onChangeText(text, key) {
     setFormInfo({
@@ -90,20 +71,19 @@ export default function Login(props) {
   }
 
 
-
-
-
   async function getSession(data) {
     axios.post(base_url(ApiWhatsapp, `whatsapp/auth`), data).then(function (response) {
       getChats(response.data)
       //_storeData(response.data)
     })
       .catch(function (error) {
-        console.log("Error login", error)
+        console.log(":::", error)
+        Toast.show('Error de conexión');
+        setTimeout(() => {
+          setLoad(false)
+        }, 3000);
       })
   }
-
-
 
   async function getChats(data) {
     let datas = data
@@ -159,7 +139,7 @@ export default function Login(props) {
               style={styles.input} value={formInfo.phone}
               placeholder="Teléfono"
               placeholderTextColor="#777"
-              keyboardType={'phone-address'}
+              keyboardType={'number-pad'}
               editable={editable}
               onChangeText={text => onChangeText(text, 'phone')}
             />
@@ -262,7 +242,8 @@ const styles = StyleSheet.create({
     borderRadius: 12
   },
   error: {
-    color: "red", textAlign: "center"
+    color: "red",
+    textAlign: "center"
   },
   btn: {
     backgroundColor: colorBeta,
@@ -294,6 +275,10 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: 14
   },
-  foot: { marginTop: 15 },
-  footText: { color: "#ccc" },
+  foot: {
+    marginTop: 15
+  },
+  footText: {
+    color: "#ccc"
+  },
 });

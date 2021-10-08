@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, } from 'react-native';
 import { Icon } from 'react-native-eva-icons';
+import { colorGamma } from '../../Colors';
 
 function UserMessage(props) {
   //console.log("chat small")
@@ -8,18 +9,39 @@ function UserMessage(props) {
   const [writing, setwriting] = useState(false);
   const [recordingAudio, setrecordingAudio] = useState(false);
 
+
   function letterCounter(text, max) {
     return ((text.length > max) ? ((text.substring(0, max - 3)) + '...') : text)
   }
 
+
+  function zfill(number, width) {
+    var numberOutput = Math.abs(number);
+    var length = number.toString().length;
+    var zero = "0";
+    if (width <= length) {
+      if (number < 0) {
+        return ("-" + numberOutput.toString());
+      } else {
+        return numberOutput.toString();
+      }
+    } else {
+      if (number < 0) {
+        return ("-" + (zero.repeat(width - length)) + numberOutput.toString());
+      } else {
+        return ((zero.repeat(width - length)) + numberOutput.toString());
+      }
+    }
+  }
+
+
+
+
   function LookingLast(data, type) {
     const count = data.length
-
     if (type === "msg") {
-
       if (data[count - 1].message) {
         //console.log("type msg", data[count - 1].message);
-
         if (data[count - 1].message.conversation) {
           return (<Text style={{ width: "100%" }}>{letterCounter(data[count - 1].message.conversation, 27)}</Text>)
         }
@@ -50,7 +72,6 @@ function UserMessage(props) {
             </View>
           )
         }
-
         if (data[count - 1].message.documentMessage) {
           return (
             <View style={{ width: "100%", flexDirection: "row" }}>
@@ -61,9 +82,8 @@ function UserMessage(props) {
             </View>
           )
         }
-
         else {
-          console.log("ERROR = type message undefined")
+          //console.log("ERROR = type message undefined")
         }
       }
       else {
@@ -72,8 +92,11 @@ function UserMessage(props) {
     }
 
 
-
     if (type === "from") {
+
+
+
+
       return <Icon name="done-all-outline" fill={"#0087FF"} width={15} height={15} style={{ top: 6 }} />
       // if (data[count - 1].status) {
       // // console.log("estado del mensaje:", data[count - 1].status)
@@ -96,26 +119,31 @@ function UserMessage(props) {
     }
 
 
-
-
     if (type === "time") {
       const datetime = parseInt(data[count - 1].messageTimestamp)
       const date = new Date(datetime * 1000)
       const day = date.getDate()
       const month = date.getMonth() + 1
       const year = date.getFullYear()
-      const time = `${date.getHours()}:${date.getMinutes()}`
-      //console.log(time, "datetime")
-      //return `${day}/${month}/${year} ${time}`
-      return `${time} p.m.`
+      const hours = zfill(date.getHours(), 2)
+      const minutes = zfill(date.getMinutes(), 2)
+      const ampm = date.getHours() >= 12 ? 'pm' : 'am';
+      const time = `${hours > 12 ? zfill((hours - 12), 2) : zfill(hours, 2)}:${minutes} ${ampm}`
+      return <Text style={{ marginLeft: 5, fontSize: 12, lineHeight: 16, textAlign: "right", paddingRight: 20, color: "white" }}>{`${zfill(day, 2)}-${zfill(month, 2)}-${year}\n${time}`}</Text>
     }
+
+
+
+
+
   }
+
 
   //seleccion simple onpress
   function simple(id) {
     // console.log("simple")
     if (props.selectList === 0) {
-      props.goToScreen("Chat", id)
+      props.goToScreen("Chat", id, props.users)
     }
     else {
       props.SelectMany(id.jid)
@@ -126,11 +154,9 @@ function UserMessage(props) {
     props.SelectMany(id.jid)
   }
 
-
-
-
-
-
+// console.log("__________________")
+// console.log("--- count: ",props.data.count," ---")
+// console.log("------------------")
 
   return (
     <TouchableOpacity
@@ -152,10 +178,10 @@ function UserMessage(props) {
             <Icon name="checkmark-circle-2" fill={"#2ECC71"} width={30} height={30} />
           </View>
         }
-        <TouchableOpacity
-          onPress={() => props.showAvatar(props.data)}
-          style={{ width: 60, height: 60, borderRadius: 40, backgroundColor: "silver", overflow: "hidden" }}>
-          <Image style={{ width: null, height: null, resizeMode: "cover", flex: 1 }} source={{ uri: props.data.profilePicture }} />
+        <TouchableOpacity onPress={() => props.showAvatar(props.data)}
+          style={{ width: 60, height: 60, borderRadius: 40, overflow: "hidden" }}>
+          {/* <View style={{zIndex:2, position:"absolute", width:"100%", height:"100%"}}><Image style={{ width: null, height: null, resizeMode: "cover", flex: 1 }} source={{ uri: props.data.profilePicture }} /></View> */}
+          <View style={{ zIndex: 1, position: "absolute", width: "100%", height: "100%" }}><Image style={{ width: null, height: null, resizeMode: "cover", flex: 1 }} source={require("../../images/isotype2.png")} /></View>
         </TouchableOpacity>
       </View>
       <View style={{ width: "80%", paddingLeft: 15 }}>
@@ -165,20 +191,33 @@ function UserMessage(props) {
               letterCounter(props.data.name, 20)
             }
           </Text>
-          <Text style={{ color: "white", width: "30%", lineHeight: 25 }}>{LookingLast(props.data.messages, "time")}</Text>
+          {/* <Text style={{ color: "white", width: "30%", lineHeight: 25 }}> */}
+          {LookingLast(props.data.messages, "time")}
+          {/* </Text> */}
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", width: "100%" }}>
 
 
-          <View style={{}}>
-            {LookingLast(props.data.messages, "from")}
-          </View>
+          {LookingLast(props.data.messages, "from")}
 
 
-          <Text style={{ width: "95%", overflow: "hidden", color: "white", marginLeft: 5, fontSize: 18 }}>
+          <Text style={{ width: "80%", overflow: "hidden", color: "white", marginLeft: 5, fontSize: 18 }}>
             {LookingLast(props.data.messages, "msg")}
           </Text>
+
+
+          {
+            props.data.count !== 0 &&
+            <View style={{ marginTop: 5, width: "20%", backgroundColor: "#2ECC71", width: 25, height: 25, borderRadius: 25, justifyContent: "center", alignContent: "center", alignItems: "center" }}>
+              <Text style={{ color: "white", position: "absolute", fontSize: 10 }}>{props.data.count}</Text>
+              <Icon name="radio-button-off" fill={"white"} width={24} height={24} />
+            </View>
+          }
+
+
         </View>
+
+
         {writing === true && <Text style={{ color: "white", marginBottom: -10, fontWeight: "bold", fontSize: 14 }}>Escribiendo...</Text>}
         {recordingAudio === true && <Text style={{ color: "white", marginBottom: -10, fontWeight: "bold", fontSize: 14 }}>Grabando audio...</Text>}
       </View>

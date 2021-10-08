@@ -1,29 +1,34 @@
 import React from "react";
 import { StyleSheet, View, Text, } from "react-native";
 import { Icon } from 'react-native-eva-icons';
+import { colorBeta } from "../../../Colors";
 function MessageText(props) {
   return (
     <View style={[styles.wrap, {
       maxWidth: props.MaxWidth,
-      //backgroundColor: props.data.key.fromMe ? props.ColorSend : props.ColorReceive,
+      backgroundColor: props.data.key.fromMe ? props.ColorSend : props.ColorReceive,
       borderTopRightRadius: props.direction === "left" ? 0 : 20,
       borderBottomRightRadius: props.direction === "left" ? 0 : 20,
       borderTopLeftRadius: props.direction === "left" ? 20 : 0,
       borderBottomLeftRadius: props.direction === "left" ? 20 : 0
     }]}>
       {props.forwarded()}
-      <Text style={{ color: "#000" }}>{props.data.message.conversation}</Text>
+      <View style={{ flexDirection: "column" }}>
+        <View style={{ borderLeftColor: colorBeta, borderLeftWidth: 4, backgroundColor: "rgba(0,0,0,0.05)", borderRadius: 5, padding: 5 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 14, color: colorBeta }}>
+            {props.data.key.fromMe === true ? "Tú" : props.contact.name}
+          </Text>
+          <Text style={styles.text}>{props.data.message.extendedTextMessage.contextInfo.quotedMessage.conversation}</Text>
+        </View>
+        <Text style={styles.text}>{props.data.message.extendedTextMessage.text}</Text>
+      </View>
       <View style={{ flexDirection: "row" }}>
-        {
-          <Icon name="star" fill={"orange"} width={15} height={15} style={{ marginTop: 3 }} />
-        }
         {props.getdate(props.data.messageTimestamp, "#555")}
         {props.data.key.fromMe && props.StatusMSG(props.data.status)}
       </View>
     </View>
   )
 }
-
 export default MessageText;
 const styles = StyleSheet.create({
   wrap: {
@@ -40,42 +45,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
   },
+  text: {
+    padding: 5,
+    fontSize: 14,
+    color: "black"
+  }
 });
-
-
-
-
-
-
-
-// function MessageTypeExtendedTextMessage(props) {
-//   function filter() {
-//     if (props.data.message.extendedTextMessage.canonicalUrl) {
-//       //console.log("ExtendedTextMessage -----> canonicalUrl", props.data.message.extendedTextMessage.canonicalUrl)
-//       return LINK(props.data.message.extendedTextMessage.canonicalUrl)
-//     }
-//     if (props.data.message.extendedTextMessage.text) {
-//       //console.log("ExtendedTextMessage -----> text", props.data.message.extendedTextMessage.text)
-//       return LINK(props.data.message.extendedTextMessage.text)
-//     }
-//   }
-//   return (
-//     <View style={[styles.wrap, {
-//       backgroundColor: props.data.key.fromMe ? ColorSend : ColorReceive,
-//       //backgroundColor: "orange",
-//       borderTopRightRadius: props.direction === "left" ? 0 : 20, borderBottomRightRadius: props.direction === "left" ? 0 : 20, borderTopLeftRadius: props.direction === "left" ? 20 : 0, borderBottomLeftRadius: props.direction === "left" ? 20 : 0
-//     }]}>
-
-//       {forwarded()}
-//       <View style={{ backgroundColor: "rgba(0,0,0,0.1)", minWidth: "100%", padding: 5, borderRadius: 8, }}>
-//         <Text>rtrtrt</Text>
-//       </View>
-//       {filter()}
-//       <View style={{ flexDirection: "row" }}>
-//         {<Icon name="star" fill={"orange"} width={15} height={15} style={{ marginTop: 3 }} />}
-//         {getdate(props.data.messageTimestamp, "#555")}
-//         {props.data.key.fromMe && StatusMSG(props.data.status)}
-//       </View>
-//     </View>
-//   )
-// }

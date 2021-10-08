@@ -10,6 +10,7 @@ import MessageImage from './TypeMessages/MessageImage.js'
 import MessageConversation from './TypeMessages/MessageConversation.js'
 import MessageText from './TypeMessages/MessageText.js'
 import MessageAudio from './TypeMessages/MessageAudio.js'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 // import MessageDocument from './TypeMessages/MessageDocument.js'
 // import MessageVideo from './TypeMessages/MessageVideo.js'
 
@@ -53,7 +54,7 @@ function FilterTypeMessage(data) {
 
 
 
-        
+
         const format = data.videoMessage.mimetype
         const Codebase64 = data.videoMessage.jpegThumbnail
         const base64Image = `data:${format};base64,${Codebase64}`;
@@ -108,17 +109,25 @@ function FilterTypeMessage(data) {
 
 
 function Answering(props) {
-  if (props.toAnswer !== null) {
+  if (props.toAnswer !== false) {
     console.log("??_", props.toAnswer)
     return (
-      <View style={styles.container}>
-        <View style={styles.wrap}>
-          {props.toAnswer.key.fromMe === true ?
-            <Text style={{ color: colorBeta, fontWeight: "bold", marginBottom: 2 }}>Tú</Text>
-            :
-            <Text style={{ color: colorBeta, fontWeight: "bold", marginBottom: 2 }}>{props.name}</Text>
-          }
-          {FilterTypeMessage(props.toAnswer.message)}
+
+      <View style={styles.wrapper}>
+        <View style={styles.container}>
+          <View style={styles.wrap}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              {props.toAnswer.key.fromMe === true ?
+                <Text style={{ color: colorBeta, fontWeight: "bold", marginBottom: 2 }}>Tú</Text>
+                :
+                <Text style={{ color: colorBeta, fontWeight: "bold", marginBottom: 2 }}>{props.name}</Text>
+              }
+              <TouchableOpacity onPress={() => props.messageAnswerDelete()}>
+                <Icon name="close-outline" fill="#fff" width={20} height={20} style={{ position: "relative", }} />
+              </TouchableOpacity>
+            </View>
+            {FilterTypeMessage(props.toAnswer.message)}
+          </View>
         </View>
       </View>
     )
@@ -126,15 +135,18 @@ function Answering(props) {
   else { return <></> }
 }
 
-
-
-
 const styles = StyleSheet.create({
+  wrapper:{
+    width: "100%",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    padding: 5
+  },
   container: {
     backgroundColor: "#555",
     borderRadius: 12,
-    left: 15,
-    width: "80%",
+    width: "90%",
     padding: 10,
     marginBottom: -8
   },

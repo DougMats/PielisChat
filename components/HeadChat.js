@@ -8,38 +8,17 @@ function HeadChat(props) {
   const [writing, setwriting] = useState(false);
   return (
     <View style={styles.wrap}>
-
-
-
-
-
-
       <View style={styles.left}>
         <TouchableOpacity onPress={() => props.goToScreen("Dashboard", null)}>
           <Icon name="arrow-back-outline" fill={"#fff"} width={30} height={30} />
         </TouchableOpacity>
       </View>
-
-
-
-
-
-
-
-
-
-
-
       <View style={styles.center}>
         <View style={styles.centerLeft}>
           <View style={styles.avatarImageWraper}>
             <Image style={styles.avatarImage} source={{ uri: data.profilePicture }} />
           </View>
         </View>
-
-
-
-
         <View style={styles.centerRigth}>
           <TouchableOpacity onPress={() => props.goToScreen("ContactView", props.data)} style={{ flexDirection: "column" }}>
             <Text style={styles.avatarName}>
@@ -52,21 +31,11 @@ function HeadChat(props) {
           </TouchableOpacity>
         </View>
       </View>
-
-
-
-
-
-
-
       <View style={styles.rigth}>
         {/* <TouchableOpacity><Icon name="video" fill={"#fff"} width={30} height={30} /></TouchableOpacity> */}
-        {/* <TouchableOpacity><Icon name="phone" fill={"#fff"} width={30} height={30} /></TouchableOpacity> */}
+        <TouchableOpacity onPress={() => props.fileTypesHidden()}><Icon name="refresh-outline" fill={"#fff"} width={30} height={30} /></TouchableOpacity>
         <TouchableOpacity onPress={() => props.openTopMenu()}><Icon name="more-vertical" fill={"#fff"} width={30} height={30} /></TouchableOpacity>
       </View>
-
-
-
     </View>
   );
 }
@@ -133,6 +102,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     flexDirection: "row",
+    paddingRight:8
   },
 })
 export default React.memo(HeadChat);

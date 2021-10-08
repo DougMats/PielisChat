@@ -3,7 +3,6 @@ import { StatusBar, Animated, Text, View, StyleSheet, Image, Dimensions, ImageBa
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height + 50;
 
-
 const AnimationUP = (props) => {
   const MoveToLeft = useRef(new Animated.Value(windowHeight)).current
   React.useEffect(() => {
@@ -27,8 +26,6 @@ const AnimationUP = (props) => {
     </Animated.View>
   );
 }
-
-
 
 const AnimationDOWN = (props) => {
   const MoveToLeft = useRef(new Animated.Value(-windowHeight)).current
@@ -54,9 +51,6 @@ const AnimationDOWN = (props) => {
   );
 }
 
-
-
-
 const LOGO = (props) => {
   const MoveToLeft = useRef(new Animated.Value(0)).current
   React.useEffect(() => {
@@ -80,47 +74,30 @@ const LOGO = (props) => {
   );
 }
 
-
-
 function Index(props) {
   return (
-    <View style={{ flex: 1,  justifyContent: "center", alignContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center", alignContent: "center", alignItems: "center" }}>
       <StatusBar backgroundColor="transparent" translucent />
-
-
-
       <LOGO>
         <Image
           source={require('../images/logo-white.png')}
           style={{ width: 220, height: 75 }} />
       </LOGO>
-
-
-
-
-      <AnimationUP style={{zIndex:-1, position: "absolute", flex: 1, width: "100%", height: "100%", }}>
+      <AnimationUP style={{ zIndex: -1, position: "absolute", flex: 1, width: "100%", height: "100%", }}>
         <ImageBackground
           source={require("../images/up.png")}
           style={{ position: "absolute", flex: 1, width: "100%", height: "100%", }}
         />
       </AnimationUP>
-
-
-
-      <AnimationDOWN style={{zIndex:-1, position: "absolute", flex: 1, width: "100%", height: "100%", }}>
+      <AnimationDOWN style={{ zIndex: -1, position: "absolute", flex: 1, width: "100%", height: "100%", }}>
         <ImageBackground
           source={require("../images/down.png")}
           style={{ position: "absolute", flex: 1, width: "100%", height: "100%", }}
         />
       </AnimationDOWN>
-
-
-
-
     </View>
   )
 }
-
 const styles = StyleSheet.create({
 
 });

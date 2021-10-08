@@ -10,6 +10,14 @@ function HomeScreen(props) {
   const [isSplashing, setIsSplashing] = useState(true)
   const { setUserDetails } = useContext(UserContext)
   const userDetails = useContext(UserContext)
+
+
+
+
+
+
+
+
   const _retrieveData = async () => {
     try {
       const value = JSON.parse(await AsyncStorage.getItem('@Passport'));
@@ -43,16 +51,11 @@ function HomeScreen(props) {
     return <Splash />
   }
 
-  console.log("rol ---> ", userDetails.userDetails.rol)
+  console.log("* home init, rol ---> ", userDetails.userDetails.rol)
+  
   if (isSplashing === false) {
     if (userDetails.userDetails._id !== null) {
       return <Dashboard {...props} />
-      // if (userDetails.userDetails.rol === "administrador") {
-      //   return <DashboardAdmin {...props} />
-      // }
-      // else {
-      //   return <Dashboard {...props} />
-      // }
     }
     else {
       if (userDetails.userDetails._id === null || userDetails.userDetails._id === undefined) {

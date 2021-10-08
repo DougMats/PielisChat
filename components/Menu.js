@@ -42,20 +42,20 @@ function Menu(props) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Archivos, enlaces y docs</Text>
+            <Text style={styles.text}>* Archivos, enlaces y docs</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Buscar</Text>
+            <Text style={styles.text}>* Buscar</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Silenciar notificaciones</Text>
+            <Text style={styles.text}>* Silenciar notificaciones</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setmenu(2)}
             style={styles.row}>
-            <Text style={styles.text}>Más</Text>
+            <Text style={styles.text}>* Más</Text>
             <Icon name="arrow-right" fill={colorBeta} width={20} height={20} />
           </TouchableOpacity>
         </View>
@@ -64,23 +64,23 @@ function Menu(props) {
         <View style={styles.wrap}>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Reportar</Text>
+            <Text style={styles.text}>* Reportar</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Bloquear</Text>
+            <Text style={styles.text}>* Bloquear</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Vaciar chat</Text>
+            <Text style={styles.text}>* Vaciar chat</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Exportat chat</Text>
+            <Text style={styles.text}>* Exportat chat</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Crear acceso directo</Text>
+            <Text style={styles.text}>* Crear acceso directo</Text>
           </TouchableOpacity>
         </View>
       }
@@ -89,28 +89,29 @@ function Menu(props) {
         <View style={styles.wrap}>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Nuevo grupo</Text>
+            <Text style={styles.text}>* Nuevo grupo</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Nueva difusión</Text>
+            <Text style={styles.text}>* Nueva difusión</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Dispositivos vinculados</Text>
+            <Text style={styles.text}>* Dispositivos vinculados</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Mensajes destacados</Text>
+            <Text style={styles.text}>* Mensajes destacados</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}>
-            <Text style={styles.text}>Ajustes</Text>
+            <Text style={styles.text}>* Ajustes</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => logOut()}
             style={styles.row}>
+            <Icon name="power-outline" fill={"#777"} width={20} height={20} style={{left:-5}}/>
             <Text style={styles.text}>Cerrar Sesión</Text>
           </TouchableOpacity>
         </View>

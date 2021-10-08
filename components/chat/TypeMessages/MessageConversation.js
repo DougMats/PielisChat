@@ -14,21 +14,14 @@ function MessageConversation(props) {
     }]}>
       {props.forwarded()}
       <Text style={{ color: "#000" }}>{props.data.message.conversation}</Text>
-
-
       <View style={{ flexDirection: "row" }}>
-
-
-
       {props.FAVORITES("douglas")}
-      
         {props.getdate(props.data.messageTimestamp, "#555")}
         {props.data.key.fromMe && props.StatusMSG(props.data.status)}
       </View>
     </View>
   )
 }
-
 export default MessageConversation;
 const styles = StyleSheet.create({
   wrap: {

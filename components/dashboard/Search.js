@@ -25,7 +25,7 @@ function Search(props) {
       width: "100%",
       backgroundColor: colorBeta,
       flexDirection: "column",
-      paddingVertical: 20,
+      paddingTop: 20,
       borderBottomColor: "rgba(0,0,0,0.15)",
       borderBottomWidth: 1.5
     }}>
@@ -49,7 +49,7 @@ function Search(props) {
       <View style={{
         width: "100%",
         //paddingBottom: props.data.length !== 0 ? 100 : 0,
-        maxHeight: 500, backgroundColor: "rgba(0,0,0,0.1)",
+        maxHeight: 450, backgroundColor: "rgba(0,0,0,0.1)",
       }}>
 
         <ScrollView>
@@ -84,7 +84,10 @@ function Search(props) {
 
       </View>
 
+
+
       <View style={{
+        display:"none",
         paddingVertical: 5,
         paddingHorizontal: 5,
         flexDirection: 'row',
@@ -125,6 +128,8 @@ function Search(props) {
           <Text style={styles.btnText}>Documentos</Text>
         </TouchableOpacity>
       </View>
+
+
     </View>
   );
 }
@@ -132,7 +137,7 @@ function Search(props) {
 const styles = StyleSheet.create({
   contact: {
     flexDirection: "row",
-    marginVertical: 5,
+    //marginVertical: 5,
     paddingHorizontal: 5,
     paddingVertical: 10,
     borderBottomColor: "rgba(0,0,0,0.2)",
@@ -146,9 +151,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   avatarWrap: {
-    width: 60,
-    height: 60,
-    borderRadius: 60,
+    marginLeft:10,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     overflow: "hidden",
     backgroundColor: "silver"
   },
@@ -162,8 +168,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   name: {
-    fontSize: 14,
-    color: "black",
+    fontWeight:"600",
+    fontSize: 16,
+    color: "white",
     opacity: 0.6
   },
   emptyText: {

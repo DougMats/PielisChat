@@ -5,78 +5,92 @@ import { colorAlfa, colorBeta, colorGamma } from '../../Colors.js'
 
 
 
+
+
+
+
 function FilesTypes(props) {
-
-
-
-
-
   const Document = () => {
-    let type="Document"
-    return type
-  }
-  const MultipleDocument = () => {
-    let type="MultipleDocument"
-    return type
-  }
-  const Camera = () => {
-    let type="Camera"
+    let type = "Document"
     return type
   }
   const Gallery = () => {
-    let type="Gallery"
+    let type = "Gallery"
+    return type
+  }
+
+
+
+
+
+
+
+  // const Document = () => {
+  //   let type = "Document"
+  //   return type
+  // }
+  const Camera = () => {
+    let type = "Camera"
     return type
   }
   const Audio = () => {
-    let type="Audio"
+    let type = "Audio"
     return type
   }
   const LivingRoom = () => {
-    let type="LivingRoom"
+    let type = "LivingRoom"
     return type
   }
   const Location = () => {
-    let type="Location"
+    let type = "Location"
     return type
   }
-
   const Contact = () => {
-    let type="Contact"
+    let type = "Contact"
     return type
   }
 
-
-
-function selectTypeFile(callback) {
-   let type =  callback()
-   props.ShowLoadFile()
-   props.getTypeMessage(type)
- }
-
-
-
+  function selectTypeFile(callback) {
+    let type = callback()
+    props.ShowLoadFile()
+    props.getTypeMessage(type)
+  }
 
   return (
-    <TouchableOpacity style={[styles.wrapper,{
-      display: props.File===true? "flex":"none"
+    <TouchableOpacity style={[styles.wrapper, {
+      display: props.show === true ? "flex" : "none"
     }]} onPress={() => props.ShowLoadFile()}>
+      <View style={styles.wrap}>
+
+        <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(Document)}>
+          <View style={[{ backgroundColor: "#FFDC00" }, styles.circle]}>
+            <Icon name="folder" fill={"white"} width={30} height={30} />
+            <View style={styles.shadow}></View>
+          </View>
+          <Text style={styles.text}>Documento</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(Gallery)}>
+          <View style={[{ backgroundColor: "#E644FF" }, styles.circle]}>
+            <Icon name="image-2" fill={"white"} width={30} height={30} />
+            <View style={styles.shadow}></View>
+          </View>
+          <Text style={styles.text}>Galería</Text>
+        </TouchableOpacity>
 
 
-    <View style={styles.wrap}>
-      <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(Document)}>
+
+
+
+    {/* <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(Document)}>
         <View style={[{ backgroundColor: "#6F44FF" }, styles.circle]}>
           <Icon name="file" fill={"white"} width={30} height={30} />
           <View style={styles.shadow}></View>
         </View>
         <Text style={styles.text}>Documento</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(MultipleDocument)}>
-        <View style={[{ backgroundColor: "#FFDC00" }, styles.circle]}>
-          <Icon name="folder" fill={"white"} width={30} height={30} />
-          <View style={styles.shadow}></View>
-        </View>
-        <Text style={styles.text}>Documentos</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
+        {/* 
     <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(Camera)}>
         <View style={[{ backgroundColor: "#FF445E" }, styles.circle]}>
           <Icon name="camera" fill={"white"} width={30} height={30} />
@@ -84,13 +98,9 @@ function selectTypeFile(callback) {
         </View>
         <Text style={styles.text}>Cámara</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(Gallery)}>
-        <View style={[{ backgroundColor: "#E644FF" }, styles.circle]}>
-          <Icon name="image-2" fill={"white"} width={30} height={30} />
-          <View style={styles.shadow}></View>
-        </View>
-        <Text style={styles.text}>Galería</Text>
-      </TouchableOpacity>
+      */}
+
+        {/* 
       <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(LivingRoom)}>
         <View style={[{ backgroundColor: "#FFA744" }, styles.circle]}>
           <Icon name="headphones" fill={"white"} width={30} height={30} />
@@ -98,6 +108,9 @@ function selectTypeFile(callback) {
         </View>
         <Text style={styles.text}>Audio</Text>
       </TouchableOpacity>
+ */}
+
+        {/* 
       <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(LivingRoom)}>
         <View style={[{ backgroundColor: "#44DAFF" }, styles.circle]}>
           <Icon name="video" fill={"white"} width={30} height={30} />
@@ -105,6 +118,9 @@ function selectTypeFile(callback) {
         </View>
         <Text style={styles.text}>Sala</Text>
       </TouchableOpacity>
+ */}
+
+        {/* 
       <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(Location)}>
         <View style={[{ backgroundColor: "#2ECC71" }, styles.circle]}>
           <Icon name="pin" fill={"white"} width={30} height={30} />
@@ -112,15 +128,19 @@ function selectTypeFile(callback) {
         </View>
         <Text style={styles.text}>Ubicación</Text>
       </TouchableOpacity>
+ */}
+
+        {/* 
       <TouchableOpacity style={styles.option} onPress={() => selectTypeFile(Contact)}>
         <View style={[{ backgroundColor: "#7D3C98" }, styles.circle]}>
           <Icon name="person" fill={"white"} width={30} height={30} />
           <View style={styles.shadow}></View>
         </View>
         <Text style={styles.text}>Contacto</Text>
-      </TouchableOpacity> 
-    </View>
-  </TouchableOpacity>
+      </TouchableOpacity>
+ */}
+      </View>
+    </TouchableOpacity>
   )
 }
 
@@ -134,7 +154,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignContent: "center",
     alignItems: "center",
-    paddingBottom:75
+    paddingBottom: 75
   },
   wrap: {
     flexDirection: 'row',
